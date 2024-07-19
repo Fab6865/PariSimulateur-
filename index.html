@@ -1,0 +1,699 @@
+<html><head><base href="https://parisimulateur.com/editeur"><title>PariSimulateur - Éditeur de Paris Sportifs avec Paris Combinés et Boutique de Luxe</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e2131;
+    color: #e0e0e0;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  #logo {
+    display: block;
+    margin: 20px auto;
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+  }
+  h1, h2 {
+    color: #4CAF50;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .balance {
+    text-align: right;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #ffd700;
+  }
+  .match, .luxury-item {
+    background-color: #2c3040;
+    border: 1px solid #4a4e5e;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .odds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .odd {
+    background-color: #3a3f53;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .odd:hover, .odd.selected {
+    background-color: #4CAF50;
+  }
+  .bet-form, .edit-form {
+    margin-top: 15px;
+  }
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #3a3f53;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+  }
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  button:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+  }
+  .result {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #ffd700;
+  }
+  #addMatchForm, #combinedBetForm, #luxuryShopContainer {
+    margin-top: 30px;
+    border-top: 1px solid #4a4e5e;
+    padding-top: 30px;
+  }
+  #matchesContainer, #luxuryItemsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  #saveLoadContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .delete-button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .delete-button:hover {
+    background-color: #cc0000;
+  }
+  .win-button {
+    background-color: #4CAF50;
+  }
+  .lose-button {
+    background-color: #ff4444;
+  }
+  .result-buttons {
+    display: none;
+  }
+  #selectedBets {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #3a3f53;
+    border-radius: 5px;
+  }
+  #combinedBetContainer {
+    background-color: #2c3040;
+    border: 1px solid #4a4e5e;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  #boosterContainer, #dailyCreditContainer {
+    margin-top: 20px;
+    background-color: #2c3040;
+    border: 1px solid #4a4e5e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  #boosterContainer h2, #dailyCreditContainer h2 {
+    margin-top: 0;
+  }
+  #boosterButton, #megaBoosterButton {
+    background-color: #ffd700;
+    color: #1e2131;
+    font-weight: bold;
+  }
+  #boosterButton:hover, #megaBoosterButton:hover {
+    background-color: #ffcc00;
+  }
+  #boosterButton:disabled, #megaBoosterButton:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+  }
+  .luxury-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .luxury-item h3 {
+    margin-top: 0;
+    color: #ffd700;
+  }
+  .luxury-item p {
+    margin-bottom: 15px;
+  }
+  #inventoryContainer {
+    margin-top: 30px;
+    background-color: #2c3040;
+    border: 1px solid #4a4e5e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  #dailyCreditTimer {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #ffd700;
+  }
+  #deleteAllButton {
+    background-color: #ff4444;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+  }
+  #deleteAllButton:hover {
+    background-color: #cc0000;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>PariSimulateur - Éditeur</h1>
+    <img id="logo" src="https://media.istockphoto.com/id/1464430276/fr/vectoriel/tasses-de-champion-et-ballons-de-sport-sur-smartphone-dans-une-sc%C3%A8ne-sombre-avec-des.jpg?s=612x612&w=0&k=20&c=wuSiAcBymxtmLF2J4SpjvEkvLY18UMGERmITCuCopf0=" alt="Logo PariSimulateur" width="200" height="200">
+    <div id="saveLoadContainer">
+      <button onclick="saveState()">Sauvegarder</button>
+      <button onclick="loadState()">Charger</button>
+    </div>
+    <div class="balance">Solde: <span id="balance">1000</span> €</div>
+    
+    <div id="dailyCreditContainer">
+      <h2>Crédit Quotidien</h2>
+      <button id="dailyCreditButton" onclick="claimDailyCredit()">Réclamer 10000 €</button>
+      <div id="dailyCreditTimer"></div>
+    </div>
+
+    <div id="boosterContainer">
+      <h2>Boosters</h2>
+      <button id="boosterButton" onclick="activateBooster()">Activer le Booster de Remboursement (2000 €)</button>
+      <button id="megaBoosterButton" onclick="activateMegaBooster()">Méga Booster : Créditer 1000000 € (500000 €)</button>
+    </div>
+    
+    <div id="matchesContainer">
+      <!-- Les matchs seront ajoutés ici dynamiquement -->
+    </div>
+    
+    <button id="deleteAllButton" onclick="deleteAllMatches()">Tout Supprimer</button>
+
+    <div id="addMatchForm">
+      <h2>Ajouter un nouveau match</h2>
+      <input type="text" id="newMatchTeam1" placeholder="Équipe 1">
+      <input type="text" id="newMatchTeam2" placeholder="Équipe 2">
+      <textarea id="newMatchBetType" placeholder="Type de pari (ex: Victoire Équipe 1, Plus de 2.5 buts, etc.)"></textarea>
+      <input type="number" id="newMatchOdd" placeholder="Cote" step="0.01">
+      <button onclick="addMatch()">Ajouter le match</button>
+    </div>
+
+    <div id="combinedBetForm">
+      <h2>Paris Combiné</h2>
+      <div id="selectedBets">
+        Sélectionnez des paris pour créer un pari combiné
+      </div>
+      <input type="number" id="combinedBetAmount" placeholder="Montant du pari combiné" min="0" step="0.01">
+      <button onclick="placeCombinedBet()">Placer le pari combiné</button>
+      <div id="combinedBetContainer" style="display: none;">
+        <div id="combinedBetResult"></div>
+        <div id="combinedBetButtons">
+          <button class="win-button" onclick="setCombinedResult(true)">Paris Combiné Gagné</button>
+          <button class="lose-button" onclick="setCombinedResult(false)">Paris Combiné Perdu</button>
+        </div>
+        <button id="deleteCombinedBet" class="delete-button" onclick="deleteCombinedBet()" style="display: none;">Supprimer le pari combiné</button>
+      </div>
+    </div>
+
+    <div id="luxuryShopContainer">
+      <h2>Boutique de Luxe</h2>
+      <div id="luxuryItemsContainer">
+        <!-- Les articles de luxe seront ajoutés ici dynamiquement -->
+      </div>
+    </div>
+
+    <div id="inventoryContainer">
+      <h2>Votre Inventaire</h2>
+      <ul id="inventoryList"></ul>
+    </div>
+  </div>
+
+  <script>
+    let balance = 1000;
+    let matches = [];
+    let selectedBets = [];
+    let currentCombinedBet = null;
+    let boosterActive = false;
+    let inventory = [];
+    let lastDailyCredit = null;
+
+    const luxuryItems = [
+      { name: "Voiture de Sport", price: 200000, image: "https://allures.paris/wp-content/uploads/2022/10/voiture-1.jpg" },
+      { name: "Villa de Luxe", price: 1000000, image: "https://i.pinimg.com/550x/fc/36/55/fc3655aeb032c6a544d47ea424539fa7.jpg" },
+      { name: "Costume sur Mesure", price: 5000, image: "https://costumeluxe.com/wp-content/uploads/2020/07/Costume-homme-de-luxe-9.jpg" },
+      { name: "Montre de Luxe", price: 50000, image: "https://images.bfmtv.com/jd4AlCKL_XkQilAiNKBZRkoBssA=/0x0:1600x900/640x0/images/Cette-montre-de-luxe-pour-homme-a-prix-avantageux-fait-l-unanimite-aupres-des-connaisseurs-1681665.jpg" },
+      { name: "Yacht Privé", price: 5000000, image: "https://media.gqmagazine.fr/photos/5cd5969d9950ebca8b9f8d87/16:9/w_1280,c_limit/most_expensive_yacht_in_the_world.jpg" }
+    ];
+
+    function updateBalance() {
+      document.getElementById('balance').textContent = balance.toFixed(2);
+      document.getElementById('boosterButton').disabled = balance < 2000;
+      document.getElementById('megaBoosterButton').disabled = balance < 500000;
+    }
+
+    function activateBooster() {
+      if (balance >= 2000) {
+        balance -= 2000;
+        boosterActive = true;
+        updateBalance();
+        alert('Booster activé ! Votre prochain pari perdu sera remboursé.');
+        document.getElementById('boosterButton').disabled = true;
+      } else {
+        alert('Solde insuffisant pour activer le Booster');
+      }
+    }
+
+    function activateMegaBooster() {
+      if (balance >= 500000) {
+        balance -= 500000;
+        balance += 1000000;
+        updateBalance();
+        alert('Méga Booster activé ! Votre compte a été crédité de 1000000 €.');
+      } else {
+        alert('Solde insuffisant pour activer le Méga Booster');
+      }
+    }
+
+    function createMatchElement(match, index) {
+      const matchDiv = document.createElement('div');
+      matchDiv.className = 'match';
+      matchDiv.innerHTML = `
+        <h2>${match.team1} vs ${match.team2}</h2>
+        <div class="odds">
+          <span class="odd" onclick="selectOdd(${index}, ${match.odd}, '${match.betType}')">${match.betType}: ${match.odd}</span>
+        </div>
+        <div class="bet-form">
+          <input type="number" id="bet-amount-${index}" placeholder="Montant du pari" min="0" step="0.01" ${match.betAmount ? 'disabled' : ''}>
+          <button onclick="placeBet(${index})" ${match.betAmount ? 'disabled' : ''}>Parier</button>
+        </div>
+        <div class="result" id="result-${index}">${match.betAmount ? `Pari placé : ${match.betType} : ${match.betAmount} € à ${match.odd}` : ''}</div>
+        <div class="result-buttons" id="result-buttons-${index}" ${match.betAmount ? 'style="display: block;"' : ''}>
+          <button class="win-button" onclick="setResult(${index}, true)">Paris Gagné</button>
+          <button class="lose-button" onclick="setResult(${index}, false)">Paris Perdu</button>
+        </div>
+        <button class="delete-button" onclick="deleteMatch(${index})" ${match.betAmount ? 'style="display: block;"' : ''}>Supprimer le match</button>
+      `;
+      return matchDiv;
+    }
+
+    function renderMatches() {
+      const container = document.getElementById('matchesContainer');
+      container.innerHTML = '';
+      matches.forEach((match, index) => {
+        container.appendChild(createMatchElement(match, index));
+      });
+    }
+
+    function addMatch() {
+      const team1 = document.getElementById('newMatchTeam1').value;
+      const team2 = document.getElementById('newMatchTeam2').value;
+      const betType = document.getElementById('newMatchBetType').value;
+      const odd = parseFloat(document.getElementById('newMatchOdd').value);
+
+      if (team1 && team2 && betType && !isNaN(odd)) {
+        matches.push({ team1, team2, betType, odd });
+        renderMatches();
+        // Reset form
+        document.getElementById('newMatchTeam1').value = '';
+        document.getElementById('newMatchTeam2').value = '';
+        document.getElementById('newMatchBetType').value = '';
+        document.getElementById('newMatchOdd').value = '';
+      } else {
+        alert('Veuillez remplir tous les champs correctement');
+      }
+    }
+
+    function selectOdd(matchIndex, odd, betType) {
+      const match = matches[matchIndex];
+      if (match.betAmount) {
+        alert('Un pari a déjà été placé sur ce match.');
+        return;
+      }
+      const betKey = `${match.team1} vs ${match.team2}: ${betType}`;
+      const betIndex = selectedBets.findIndex(bet => bet.key === betKey);
+
+      if (betIndex === -1) {
+        selectedBets.push({ key: betKey, odd: odd, matchIndex: matchIndex });
+      } else {
+        selectedBets.splice(betIndex, 1);
+      }
+
+      updateSelectedBets();
+      
+      // Mettre à jour visuellement la sélection
+      const matchDiv = document.querySelector(`.match:nth-child(${matchIndex + 1})`);
+      matchDiv.querySelector('.odd').classList.toggle('selected');
+    }
+
+    function updateSelectedBets() {
+      const container = document.getElementById('selectedBets');
+      if (selectedBets.length === 0) {
+        container.innerHTML = 'Sélectionnez des paris pour créer un pari combiné';
+      } else {
+        let html = '<ul>';
+        let totalOdd = 1;
+        selectedBets.forEach(bet => {
+          html += `<li>${bet.key} (cote: ${bet.odd})</li>`;
+          totalOdd *= bet.odd;
+        });
+        html += `</ul><p>Cote totale: ${totalOdd.toFixed(2)}</p>`;
+        container.innerHTML = html;
+      }
+    }
+
+    function placeBet(matchIndex) {
+      const match = matches[matchIndex];
+      if (match.betAmount) {
+        alert('Un pari a déjà été placé sur ce match.');
+        return;
+      }
+      const betAmount = parseFloat(document.getElementById(`bet-amount-${matchIndex}`).value);
+      if (isNaN(betAmount) || betAmount < 0 || betAmount > balance) {
+        alert('Montant du pari invalide');
+        return;
+      }
+      
+      balance -= betAmount;
+      match.betAmount = betAmount;
+      updateBalance();
+      
+      document.getElementById(`result-${matchIndex}`).textContent = `Pari placé : ${match.betType} : ${betAmount} € à ${match.odd}`;
+      document.getElementById(`result-buttons-${matchIndex}`).style.display = 'block';
+      document.getElementById(`bet-amount-${matchIndex}`).disabled = true;
+      document.querySelector(`.match:nth-child(${matchIndex + 1}) button`).disabled = true;
+    }
+
+    function placeCombinedBet() {
+      if (selectedBets.length < 2) {
+        alert('Veuillez sélectionner au moins deux paris pour un pari combiné');
+        return;
+      }
+
+      const betAmount = parseFloat(document.getElementById('combinedBetAmount').value);
+      if (isNaN(betAmount) || betAmount < 0 || betAmount > balance) {
+        alert('Montant du pari invalide');
+        return;
+      }
+
+      balance -= betAmount;
+      updateBalance();
+
+      let totalOdd = selectedBets.reduce((total, bet) => total * bet.odd, 1);
+      
+      currentCombinedBet = {
+        bets: selectedBets,
+        amount: betAmount,
+        totalOdd: totalOdd
+      };
+
+      document.getElementById('combinedBetResult').textContent = `Pari combiné placé : ${betAmount} € à ${totalOdd.toFixed(2)}`;
+      document.getElementById('combinedBetContainer').style.display = 'block';
+      
+      selectedBets.forEach(bet => {
+        const matchIndex = bet.matchIndex;
+        const match = matches[matchIndex];
+        match.betAmount = betAmount / selectedBets.length; // Répartir le montant du pari combiné
+        document.getElementById(`result-${matchIndex}`).textContent = `Inclus dans le pari combiné`;
+        document.getElementById(`result-buttons-${matchIndex}`).style.display = 'none';
+        document.getElementById(`bet-amount-${matchIndex}`).disabled = true;
+        document.querySelector(`.match:nth-child(${matchIndex + 1}) button`).disabled = true;
+      });
+
+      selectedBets = [];
+      updateSelectedBets();
+    }
+
+    function setCombinedResult(isWin) {
+      if (!currentCombinedBet) {
+        alert('Aucun pari combiné n\'a été placé');
+        return;
+      }
+
+      let resultText = '';
+      if (isWin) {
+        const winnings = currentCombinedBet.amount * currentCombinedBet.totalOdd;
+        balance += winnings;
+        resultText = `Pari Combiné Gagné ! Gains : ${winnings.toFixed(2)} €`;
+      } else {
+        if (boosterActive) {
+          balance += currentCombinedBet.amount;
+          resultText = `Pari Combiné Perdu ! Mais remboursé grâce au Booster.`;
+          boosterActive = false;
+        } else {
+          resultText = `Pari Combiné Perdu !`;
+        }
+      }
+
+      document.getElementById('combinedBetResult').textContent = resultText;
+      document.getElementById('combinedBetButtons').style.display = 'none';
+      document.getElementById('deleteCombinedBet').style.display = 'block';
+      updateBalance();
+
+      currentCombinedBet.bets.forEach(bet => {
+        const matchIndex = bet.matchIndex;
+        document.getElementById(`result-${matchIndex}`).textContent = resultText;
+        document.querySelector(`.match:nth-child(${matchIndex + 1}) .delete-button`).style.display = 'block';
+      });
+    }
+
+    function deleteCombinedBet() {
+      if (!currentCombinedBet) {
+        alert('Aucun pari combiné à supprimer');
+        return;
+      }
+
+      currentCombinedBet.bets.forEach(bet => {
+        const matchIndex = bet.matchIndex;
+        const match = matches[matchIndex];
+        match.betAmount = null;
+        document.getElementById(`result-${matchIndex}`).textContent = '';
+        document.getElementById(`bet-amount-${matchIndex}`).disabled = false;
+        document.querySelector(`.match:nth-child(${matchIndex + 1}) button`).disabled = false;
+        document.querySelector(`.match:nth-child(${matchIndex + 1}) .delete-button`).style.display = 'none';
+      });
+
+      document.getElementById('combinedBetContainer').style.display = 'none';
+      document.getElementById('combinedBetResult').textContent = '';
+      document.getElementById('combinedBetButtons').style.display = 'block';
+      document.getElementById('deleteCombinedBet').style.display = 'none';
+
+      currentCombinedBet = null;
+    }
+
+    function setResult(matchIndex, isWin) {
+      const match = matches[matchIndex];
+      if (!match.betAmount) {
+        alert('Aucun pari n\'a été placé sur ce match');
+        return;
+      }
+      
+      let winnings = 0;
+      if (isWin) {
+        winnings = match.betAmount * match.odd;
+        balance += winnings;
+        document.getElementById(`result-${matchIndex}`).textContent = `Pari Gagné ! Gains : ${winnings.toFixed(2)} €`;
+      } else {
+        if (boosterActive) {
+          balance += match.betAmount;
+          document.getElementById(`result-${matchIndex}`).textContent = `Pari Perdu ! Mais remboursé grâce au Booster.`;
+          boosterActive = false;
+        } else {
+          document.getElementById(`result-${matchIndex}`).textContent = `Pari Perdu !`;
+        }
+      }
+      
+      updateBalance();
+      match.betAmount = null;
+      
+      // Cacher les boutons de résultat
+      document.getElementById(`result-buttons-${matchIndex}`).style.display = 'none';
+      
+      // Afficher le bouton de suppression
+      document.querySelector(`.match:nth-child(${matchIndex + 1}) .delete-button`).style.display = 'block';
+    }
+
+    function deleteMatch(index) {
+      matches.splice(index, 1);
+      renderMatches();
+    }
+
+    function deleteAllMatches() {
+      if (confirm('Êtes-vous sûr de vouloir supprimer tous les matchs ?')) {
+        matches = [];
+        selectedBets = [];
+        currentCombinedBet = null;
+        renderMatches();
+        updateSelectedBets();
+        document.getElementById('combinedBetContainer').style.display = 'none';
+        document.getElementById('combinedBetResult').textContent = '';
+        document.getElementById('combinedBetButtons').style.display = 'block';
+        document.getElementById('deleteCombinedBet').style.display = 'none';
+      }
+    }
+
+    function renderLuxuryItems() {
+      const container = document.getElementById('luxuryItemsContainer');
+      container.innerHTML = '';
+      luxuryItems.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'luxury-item';
+        itemDiv.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" width="300" height="200">
+          <h3>${item.name}</h3>
+          <p>Prix: ${item.price.toLocaleString()} €</p>
+          <button onclick="buyLuxuryItem(${index})">Acheter</button>
+        `;
+        container.appendChild(itemDiv);
+      });
+    }
+
+    function buyLuxuryItem(index) {
+      const item = luxuryItems[index];
+      if (balance >= item.price) {
+        balance -= item.price;
+        inventory.push(item.name);
+        updateBalance();
+        updateInventory();
+        alert(`Félicitations ! Vous avez acheté ${item.name} pour ${item.price.toLocaleString()} €`);
+      } else {
+        alert('Solde insuffisant pour acheter cet article');
+      }
+    }
+
+    function updateInventory() {
+      const inventoryList = document.getElementById('inventoryList');
+      inventoryList.innerHTML = '';
+      inventory.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        inventoryList.appendChild(li);
+      });
+    }
+
+    function claimDailyCredit() {
+      const now = new Date();
+      if (!lastDailyCredit || (now - lastDailyCredit) >= 24 * 60 * 60 * 1000) {
+        balance += 10000;
+        lastDailyCredit = now;
+        updateBalance();
+        alert('Vous avez reçu votre crédit quotidien de 10000 €!');
+        updateDailyCreditTimer();
+      } else {
+        alert('Vous avez déjà réclamé votre crédit quotidien. Revenez demain!');
+      }
+    }
+
+    function updateDailyCreditTimer() {
+      const timerElement = document.getElementById('dailyCreditTimer');
+      const button = document.getElementById('dailyCreditButton');
+
+      if (!lastDailyCredit) {
+        timerElement.textContent = 'Crédit quotidien disponible!';
+        button.disabled = false;
+        return;
+      }
+
+      const now = new Date();
+      const timeSinceLastCredit = now - lastDailyCredit;
+      const timeUntilNextCredit = 24 * 60 * 60 * 1000 - timeSinceLastCredit;
+
+      if (timeUntilNextCredit <= 0) {
+        timerElement.textContent = 'Crédit quotidien disponible!';
+        button.disabled = false;
+      } else {
+        const hours = Math.floor(timeUntilNextCredit / (60 * 60 * 1000));
+        const minutes = Math.floor((timeUntilNextCredit % (60 * 60 * 1000)) / (60 * 1000));
+        const seconds = Math.floor((timeUntilNextCredit % (60 * 1000)) / 1000);
+        timerElement.textContent = `Prochain crédit disponible dans: ${hours}h ${minutes}m ${seconds}s`;
+        button.disabled = true;
+        setTimeout(updateDailyCreditTimer, 1000);
+      }
+    }
+
+    function saveState() {
+      const state = {
+        balance: balance,
+        matches: matches,
+        currentCombinedBet: currentCombinedBet,
+        boosterActive: boosterActive,
+        inventory: inventory,
+        lastDailyCredit: lastDailyCredit
+      };
+      localStorage.setItem('pariSimulateurState', JSON.stringify(state));
+      alert('État sauvegardé avec succès !');
+    }
+
+    function loadState() {
+      const savedState = localStorage.getItem('pariSimulateurState');
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        balance = state.balance;
+        matches = state.matches;
+        currentCombinedBet = state.currentCombinedBet;
+        boosterActive = state.boosterActive;
+        inventory = state.inventory;
+        lastDailyCredit = state.lastDailyCredit ? new Date(state.lastDailyCredit) : null;
+        updateBalance();
+        renderMatches();
+        updateInventory();
+        updateDailyCreditTimer();
+        if (currentCombinedBet) {
+          document.getElementById('combinedBetResult').textContent = `Pari combiné placé : ${currentCombinedBet.amount} € à ${currentCombinedBet.totalOdd.toFixed(2)}`;
+          document.getElementById('combinedBetContainer').style.display = 'block';
+        }
+        document.getElementById('boosterButton').disabled = boosterActive;
+        alert('État chargé avec succès !');
+      } else {
+        alert('Aucun état sauvegardé trouvé !');
+      }
+    }
+
+    updateBalance();
+    renderMatches();
+    renderLuxuryItems();
+    updateInventory();
+    updateDailyCreditTimer();
+  </script>
+</body></html>
